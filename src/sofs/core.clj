@@ -1,6 +1,9 @@
 (ns sofs.core)
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn longest-count
+  "Takes a grid vector consisting of row vectors, and returns the
+  length of the longest row"
+  [grid]
+  (reduce #(max % (count %2))
+          0
+          grid))

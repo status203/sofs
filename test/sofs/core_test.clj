@@ -1,7 +1,15 @@
 (ns sofs.core-test
-  (:require [clojure.test :refer :all]
+  (:require [midje.sweet :refer :all]
             [sofs.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+
+(tabular
+ (facts "about finding the length of the longest row"
+        (longest-count ?grid) => ?length)
+
+ ?grid               ?length
+ []                  0
+ [[1]]               1
+ [[1] [2]]           1
+ [[1 2] [3]]         2
+ [[1] [3 4]]         2)
