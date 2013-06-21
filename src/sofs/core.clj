@@ -6,7 +6,8 @@
   inner sequence. Returns nil if s is empty"
   [s]
   (if (seq s)
-      (reduce max (map count s))
+    (r/fold (r/monoid max (fn [] 0))
+              (r/map count s))
       nil))
 
 (defn shortest-count
@@ -14,7 +15,8 @@
   inner sequence. Returns nil if s is empty"
   [s]
   (if (seq s)
-   (reduce min (map count s))
+      (r/fold (r/monoid min (fn [] Double/POSITIVE_INFINITY))
+              (r/map count s))
    nil))
 
 (defn longest
