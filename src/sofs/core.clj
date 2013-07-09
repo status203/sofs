@@ -26,8 +26,8 @@
   (if (seq s)
     (reduce #(if (> (count %2) (count %))
                %2
-               %))
-    nil))
+               %)
+            nil)))
 
 (defn shortest
   "Takes a sequence of sequences and returns the longest inner sequence.
