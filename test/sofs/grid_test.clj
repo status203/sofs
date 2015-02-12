@@ -67,22 +67,26 @@
 
 (tabular
  (facts "about buffering grids"
-        (buffer ?grid ?n) => ?result)
+        (buffer ?grid ?r ?c) => ?result)
 
- ?n ?grid             ?result
- 0  []                []
- 1  []                [[nil nil] [nil nil]]
- 0  [[]]              [[]]
- 1  [[]]              [[nil nil] [nil nil] [nil nil]]
- 0  [[1]]             [[1]]
- 1  [[1]]             [[nil nil nil] [nil 1 nil] [nil nil nil]]
- 0  [[1 2 3] [4 5 6]] [[1 2 3] [4 5 6]]
- 2  [[1 2 3] [4 5 6]] [[nil nil nil nil nil nil nil]
-                       [nil nil nil nil nil nil nil]
-                       [nil nil 1   2   3   nil nil]
-                       [nil nil 4   5   6   nil nil]
-                       [nil nil nil nil nil nil nil]
-                       [nil nil nil nil nil nil nil]])
+ ?r ?c ?grid             ?result
+ 0  0  []                []
+ 0  1  []                []
+ 1  0  []                [[] []]
+ 1  1  []                [[nil nil] [nil nil]]
+ 0  0  [[]]              [[]]
+ 0  1  [[]]              [[nil nil]]
+ 1  0  [[]]              [[] [] []]
+ 1  1  [[]]              [[nil nil] [nil nil] [nil nil]]
+ 0  0  [[1]]             [[1]]
+ 0  1  [[1]]             [[nil 1 nil]]
+ 1  0  [[1]]             [[nil] [1] [nil]]
+ 1  1  [[1]]             [[nil nil nil] [nil 1 nil] [nil nil nil]]
+ 0  0  [[1 2 3] [4 5 6]] [[1 2 3] [4 5 6]]
+ 1  2  [[1 2 3] [4 5 6]] [[nil nil nil nil nil nil nil]
+                          [nil nil 1   2   3   nil nil]
+                          [nil nil 4   5   6   nil nil]
+                          [nil nil nil nil nil nil nil]])
 
 (tabular
  (facts "about sub-grids"

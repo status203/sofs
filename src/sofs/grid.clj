@@ -28,14 +28,15 @@
    (take r (partition c (concat s (repeat cell))))))
 
 (defn buffer
-  "Add n levels of padding (defaults to nil) around a grid"
-  ([grid n] (buffer n nil grid))
-  ([n padding grid]
-     (let [longest (longest-count grid)
-           new-longest (+ longest (* 2 n))
-           buffer-line (repeat new-longest padding)
-           buffer-lines (repeat n buffer-line)
-           line-buffer (repeat n padding)]
+  "Add m rows of padding, and n entries of padding within each row. Padding
+  defaults to nil."
+  ([grid r c] (buffer grid r c nil))
+  ([grid r c padding]
+     (let [width (count (first grid))
+           new-width (+ width (* 2 c))
+           buffer-line (repeat new-width padding)
+           buffer-lines (repeat r buffer-line)
+           line-buffer (repeat c padding)]
        (concat buffer-lines
                (map #(concat line-buffer % line-buffer) grid)
                buffer-lines))))
@@ -54,3 +55,9 @@
   r by c neighbours on each side. Assumes that the grid is at least 2r+1 by
   2c+1 to start with."
   [grid r c] (sub-grids grid (inc (* 2 r)) (inc (* 2 c))))
+
+(defn neighbours-all
+  "Takes a grid and returns a grid of subgrids of the cell plus neighbours;
+  one for each entry in the original grid. Cells without sufficient
+  neighbours will have their sub-grids padded by 'cell', by default nil."
+  ([grid r c] (neighbours )))
