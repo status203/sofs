@@ -8,7 +8,8 @@
         (longest-count ?grid) => ?length)
 
  ?grid               ?length
- []                  nil
+ []                  0
+ [[]]                0
  [[1]]               1
  [[1] [2]]           1
  [[1 2] [3]]         2
@@ -19,7 +20,7 @@
         (shortest-count ?grid) => ?length)
 
  ?grid               ?length
- []                  nil
+ []                  0
  [[]]                0
  [[1]]               1
  [[1] [2]]           1

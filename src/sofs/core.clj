@@ -8,7 +8,7 @@
   (if (seq s)
     (r/fold (r/monoid max (fn [] 0))
               (r/map count s))
-      nil))
+      0))
 
 (defn shortest-count
   "Takes a sequence of sequences and returns the length of the longest
@@ -17,7 +17,7 @@
   (if (seq s)
       (r/fold (r/monoid min (fn [] Double/POSITIVE_INFINITY))
               (r/map count s))
-   nil))
+   0))
 
 (defn longest
   "Takes a sequence of sequences and returns the longest inner sequence.
