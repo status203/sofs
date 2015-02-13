@@ -92,25 +92,36 @@
  (facts "about sub-grids"
         (sub-grids ?grid ?r ?c) => ?result)
 
- ?r ?c ?grid                       ?result
- 1  1  (sequence-grid (range) 1 1) [[[[0]]]]
- 2  3  (sequence-grid (range) 3 4) [[ [[0 1 2] [4 5 6]] [[1 2 3] [5 6 7]] ]
-                                      [[[4 5 6] [8 9 10]] [[5 6 7] [9 10 11]] ]])
+ ?r ?c ?grid                        ?result
+ 1  1  (sequence->grid (range) 1 1) [[[[0]]]]
+ 2  3  (sequence->grid (range) 3 4) [[ [[0 1 2] [4 5 6]] [[1 2 3] [5 6 7]] ]
+                                       [[[4 5 6] [8 9 10]] [[5 6 7] [9 10 11]] ]])
 
 (tabular
  (facts "about neighbours"
         (neighbours ?grid ?r ?c) => ?result)
 
- ?r ?c ?grid           ?result
- 1  2  (sequence-grid (range) 3 5) [[ [[0 1 2 3 4] [5 6 7 8 9] [10 11 12 13 14]] ]]
- 0  0  (sequence-grid (range) 2 2) [[ [[0]] [[1]] ]
-                                    [ [[2]] [[3]] ]]
- 1  1  (sequence-grid (range) 4 4) [[ [[ 0  1  2] [ 4  5  6] [ 8  9 10]] [[ 1  2  3] [ 5  6  7] [ 9 10 11]] ]
-                                    [ [[ 4  5  6] [ 8  9 10] [12 13 14]] [[ 5  6  7] [ 9 10 11] [13 14 15]] ]])
+ ?r ?c ?grid                        ?result
+ 1  2  (sequence->grid (range) 3 5) [[ [[0 1 2 3 4] [5 6 7 8 9] [10 11 12 13 14]] ]]
+ 0  0  (sequence->grid (range) 2 2) [[ [[0]] [[1]] ]
+                                     [ [[2]] [[3]] ]]
+ 1  1  (sequence->grid (range) 4 4) [[ [[ 0  1  2] [ 4  5  6] [ 8  9 10]] [[ 1  2  3] [ 5  6  7] [ 9 10 11]] ]
+                                     [ [[ 4  5  6] [ 8  9 10] [12 13 14]] [[ 5  6  7] [ 9 10 11] [13 14 15]] ]])
 
 (tabular
  (facts "about neighbours-all with default padding"
         (neighbours-all ?grid ?r ?c) => ?result)
 
- ?r ?c ?grid                       ?result
- 0  0  []                          [])
+ ?r ?c ?grid                        ?result
+ 0  0  []                           []
+ 0  1  []                           []
+ 1  0  []                           []
+ 1  1  []                           []
+ 0  0  [[1]]                        [[ [[1]] ]]
+ 0  1  [[1]]                        [[ [[nil 1 nil]] ]]
+ 1  0  [[1]]                        [[ [[nil] [1] [nil]] ]]
+ 1  1  [[1]]                        [[ [[nil nil nil] [nil 1 nil] [nil nil nil]] ]]
+ 1  2  (sequence->grid (range) 3 2) [[ [[nil nil nil nil nil] [nil nil 0 1 nil] [nil nil 2 3 nil]] [[nil nil nil nil nil] [nil 0 1 nil nil] [nil 2 3 nil nil]] ]
+                                     [ [[nil nil 0 1 nil] [nil nil 2 3 nil] [nil nil 4 5 nil]] [[nil 0 1 nil nil] [nil 2 3 nil nil] [nil 4 5 nil nil]] ]
+                                     [ [[nil nil 2 3 nil] [nil nil 4 5 nil] [nil nil nil nil nil]] [[nil 2 3 nil nil] [nil 4 5 nil nil] [nil nil nil nil nil]] ]]
+ )
