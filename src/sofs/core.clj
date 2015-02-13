@@ -1,5 +1,6 @@
 (ns sofs.core
-  (:require [clojure.core.reducers :as r]))
+  (:require [clojure.core.reducers :as r])
+  (:refer-clojure :exclude [map]))
 
 (defn longest-count
   "Takes a sequence of sequences and returns the length of the longest
@@ -42,3 +43,10 @@
             (first s)
             (rest s))
     nil))
+
+(defn map
+  "Returns a lazy sequence of lazy sequences consisting of the result of
+  applying f to the set of first items from a row, set of second items in
+  a row, until one of the rows is exhausted. Function f should accept
+  number-of-sofs arguments"
+  ([f sofs] (clojure.core/map #(clojure.core/map f %) sofs)))

@@ -1,11 +1,12 @@
 (ns sofs.core-test
   (:require [midje.sweet :refer :all]
-            [sofs.core :refer :all]))
+            [sofs.core :as sofs])
+  (:refer-clojure :exclude [map]))
 
 
 (tabular
  (facts "about finding the length of the longest row"
-        (longest-count ?grid) => ?length)
+        (sofs/longest-count ?grid) => ?length)
 
  ?grid               ?length
  []                  0
@@ -17,7 +18,7 @@
 
 (tabular
  (facts "about finding the length of the shortest row"
-        (shortest-count ?grid) => ?length)
+        (sofs/shortest-count ?grid) => ?length)
 
  ?grid               ?length
  []                  0
@@ -29,7 +30,7 @@
 
 (tabular
  (facts "about finding the longest row"
-        (longest ?grid) => ?seq)
+        (sofs/longest ?grid) => ?seq)
 
  ?grid               ?seq
  []                  nil
@@ -41,7 +42,7 @@
 
 (tabular
  (facts "about finding the shortest row"
-        (shortest ?grid) => ?seq)
+        (sofs/shortest ?grid) => ?seq)
 
  ?grid               ?seq
  []                  nil
@@ -50,3 +51,6 @@
  [[1] [2]]           [1]
  [[1 2] [3]]         [3]
  [[1] [3 4]]         [1])
+
+(fact "about mapping over a single sofs"
+        (sofs/map inc [[1] [2 3 4] [5 6]]) => [[2] [3 4 5] [6 7]])

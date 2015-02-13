@@ -58,7 +58,7 @@
 
 (defn neighbours-all
   "Takes a grid and returns a grid of subgrids of the cell plus neighbours;
-  one for each entry in the original grid. Cells without sufficient
+  one subgrid for each entry in the original grid. Cells without sufficient
   neighbours will have their sub-grids padded by 'cell', by default nil."
   ([grid r c] (neighbours-all grid r c nil))
   ([grid r c cell] (neighbours (buffer grid r c cell) r c)))
