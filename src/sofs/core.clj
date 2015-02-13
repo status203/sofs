@@ -49,4 +49,9 @@
   applying f to the set of first items from a row, set of second items in
   a row, until one of the rows is exhausted. Function f should accept
   number-of-sofs arguments"
-  ([f sofs] (clojure.core/map #(clojure.core/map f %) sofs)))
+  ([f sofs] (clojure.core/map #(clojure.core/map f %) sofs))
+  ([f sofs1 sofs2] (clojure.core/map #(clojure.core/map f %1 %2) sofs1 sofs2))
+  ([f sofs1 sofs2 sofs3 & rst]
+   (apply clojure.core/map
+          (fn [s1 & rst] (apply clojure.core/map f (conj rst s1)))
+          (conj rst sofs3 sofs2 sofs1))))
