@@ -1,5 +1,5 @@
 (ns sofs.core-test
-  (:refer-clojure :exclude [map])
+  (:refer-clojure :exclude [map reduce])
   (:require [midje.sweet :refer :all]
             [sofs.core :refer :all]))
 
@@ -67,3 +67,8 @@
       (map #(str (+ (/ %1 %2) %3) " " %4) [[60]] [[2]] [[3]] [[\a]])
       => [["33 a"]])
 
+(fact "about reducing without initial values"
+      (reduce / - [[60 2 1] [12 3] [1]]) => 25)
+
+(fact "about reducing with initial values"
+      (reduce * 2 + 7 [[60 2 1] [12 3] [1]]) => 321)

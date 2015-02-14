@@ -1,6 +1,6 @@
 (ns sofs.core
   (:require [clojure.core.reducers :as r])
-  (:refer-clojure :exclude [map]))
+  (:refer-clojure :exclude [map reduce]))
 
 (defn longest-count
   "Takes a sequence of sequences and returns the length of the longest
@@ -25,7 +25,7 @@
   Returns nil if sequence is empty."
   [s]
   (if (seq s)
-    (reduce #(if (> (count %2) (count %))
+    (clojure.core/reduce #(if (> (count %2) (count %))
                %2
                %)
             (first s)
@@ -37,7 +37,7 @@
   Returns nil if sequence is empty."
   [s]
   (if (seq s)
-    (reduce #(if (< (count %2) (count %))
+    (clojure.core/reduce #(if (< (count %2) (count %))
                %2
                %)
             (first s)
@@ -55,3 +55,15 @@
    (apply clojure.core/map
           (fn [s1 & rst] (apply clojure.core/map f (conj rst s1)))
           (conj rst sofs3 sofs2 sofs1))))
+
+(defn reduce
+  "Returns the result of reducing each row using the function f-row, then
+  reducing the results using f-col. f-row and f-col should be functions of two
+  arguments and are called in a similar manner to clojure.core/reduce."
+  ([f-row f-col sofs]
+   (clojure.core/reduce f-col
+                        (clojure.core/map (partial clojure.core/reduce f-row) sofs)))
+  ([f-row row-val f-col col-val sofs]
+   (clojure.core/reduce f-col
+                        col-val
+                        (clojure.core/map (partial clojure.core/reduce f-row row-val) sofs))))
