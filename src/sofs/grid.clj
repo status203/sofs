@@ -1,8 +1,7 @@
 (ns sofs.grid
   "Functions manipulating a sequence of sequences as a grid."
   (:refer-clojure :exclude [partition])
-  (:require [sofs.core :refer [longest-count]])
-  (refer-clojure :exclude [partition map]))
+  (:require [sofs.core :refer [longest-count]]))
 
 (defn ragged->grid
   "Takes a (possibly uneven) sequence consisting of row sequences and pads the
@@ -46,7 +45,7 @@
 (defn partition
   "Takes a grid and returns a grid of all sub-grids of size r by c. Assumes
   that the grid is at least r by c to start with."
-  ([r c grid] (partition r r c c grid))
+  ([r c grid] (sofs.grid/partition r r c c grid))
   ([r r-step c c-step grid]
     (->> grid
          (clojure.core/map #(clojure.core/partition c c-step %))
@@ -57,7 +56,7 @@
   "Takes a grid and returns a grid or all subgrids that contain a cell plus
   r by c neighbours on each side. Assumes that the grid is at least 2r+1 by
   2c+1 to start with."
-  [r c grid] (partition (inc (* 2 r)) 1 (inc (* 2 c)) 1 grid))
+  [r c grid] (sofs.grid/partition (inc (* 2 r)) 1 (inc (* 2 c)) 1 grid))
 
 (defn neighbours-all
   "Takes a grid and returns a grid of subgrids of the cell plus neighbours;

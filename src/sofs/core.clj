@@ -1,6 +1,6 @@
 (ns sofs.core
-  (:require [clojure.core.reducers :as r])
-  (:refer-clojure :exclude [map reduce]))
+  (:refer-clojure :exclude [map reduce partition])
+  (:require [clojure.core.reducers :as r]))
 
 (defn longest-count
   "Takes a sequence of sequences and returns the length of the longest

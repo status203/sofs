@@ -1,74 +1,62 @@
 (ns sofs.core-test
-  (:refer-clojure :exclude [map reduce])
-  (:require [midje.sweet :refer :all]
-            [sofs.core :refer :all]))
+  (:require [clojure.test :refer [are deftest is]]
+            [sofs.core :as sut]))
 
+(deftest length-of-longest-row
+  (are [grid expected]
+       (= expected (sut/longest-count grid))
+    []                  0
+    [[]]                0
+    [[1]]               1
+    [[1] [2]]           1
+    [[1 2] [3]]         2
+    [[1] [3 4]]         2))
 
-(tabular
- (facts "about finding the length of the longest row"
-        (longest-count ?grid) => ?length)
+(deftest length-of-shortest-row
+  (are [grid expected]
+       (= expected (sut/shortest-count grid))
+    []                  0
+    [[]]                0
+    [[1]]               1
+    [[1] [2]]           1
+    [[1 2] [3]]         1
+    [[1] [3 4]]         1))
 
- ?grid               ?length
- []                  0
- [[]]                0
- [[1]]               1
- [[1] [2]]           1
- [[1 2] [3]]         2
- [[1] [3 4]]         2)
+(deftest longest-row
+  (are [grid expected]
+       (= expected (sut/longest grid))
+    []                  nil
+    [[]]                []
+    [[1]]               [1]
+    [[1] [2]]           [1]
+    [[1 2] [3]]         [1 2]
+    [[1] [3 4]]         [3 4]))
 
-(tabular
- (facts "about finding the length of the shortest row"
-        (shortest-count ?grid) => ?length)
+(deftest shortest-row
+  (are [grid expected]
+       (= expected (sut/shortest grid))
+    []                  nil
+    [[]]                []
+    [[1]]               [1]
+    [[1] [2]]           [1]
+    [[1 2] [3]]         [3]
+    [[1] [3 4]]         [1]))
 
- ?grid               ?length
- []                  0
- [[]]                0
- [[1]]               1
- [[1] [2]]           1
- [[1 2] [3]]         1
- [[1] [3 4]]         1)
+(deftest single-sofs-mapping
+  (is (= [[2] [3 4 5] [6 7]] (sut/map inc [[1] [2 3 4] [5 6]]))))
 
-(tabular
- (facts "about finding the longest row"
-        (longest ?grid) => ?seq)
+(deftest two-sofs-mapping
+  (is (= [[7] [10 12 12] [10 6]] (sut/map * [[1] [2 3 4] [5 6]] [[7 6] [5 4 3] [2 1]]))))
 
- ?grid               ?seq
- []                  nil
- [[]]                []
- [[1]]               [1]
- [[1] [2]]           [1]
- [[1 2] [3]]         [1 2]
- [[1] [3 4]]         [3 4])
+(deftest three-sofs-mapping
+  (is (= [[33]] (sut/map #(+ (/ %1 %2) %3) [[60]] [[2]] [[3]]))))
 
-(tabular
- (facts "about finding the shortest row"
-        (shortest ?grid) => ?seq)
+(deftest three-sofs-mapping-again
+  (is (= [["33 a"]] (sut/map #(str (+ (/ %1 %2) %3) " " %4) [[60]] [[2]] [[3]] [[\a]]))))
 
- ?grid               ?seq
- []                  nil
- [[]]                []
- [[1]]               [1]
- [[1] [2]]           [1]
- [[1 2] [3]]         [3]
- [[1] [3 4]]         [1])
+(deftest reducing-without-initial-values
+  (is (= 25 (sut/reduce / - [[60 2 1] [12 3] [1]]))))
 
-(fact "about mapping over a single sofs"
-      (map inc [[1] [2 3 4] [5 6]]) => [[2] [3 4 5] [6 7]])
+(deftest reducing-with-initial-values
+  (is (= 321 (sut/reduce * 2 + 7 [[60 2 1] [12 3] [1]]))))
 
-(fact "about mapping over 2 sofs"
-      (map * [[1] [2 3 4] [5 6]] [[7 6] [5 4 3] [2 1]])
-      => [[7] [10 12 12] [10 6]])
-
-(fact "about mapping over 3 sofs"
-      (map #(+ (/ %1 %2) %3) [[60]] [[2]] [[3]])
-      => [[33]])
-
-(fact "about mapping over 3 sofs"
-      (map #(str (+ (/ %1 %2) %3) " " %4) [[60]] [[2]] [[3]] [[\a]])
-      => [["33 a"]])
-
-(fact "about reducing without initial values"
-      (reduce / - [[60 2 1] [12 3] [1]]) => 25)
-
-(fact "about reducing with initial values"
-      (reduce * 2 + 7 [[60 2 1] [12 3] [1]]) => 321)
